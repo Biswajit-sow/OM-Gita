@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhagavad Gita Sloka</title>
+</head>
+<body>
+
+<div id="sloka-container">
+    <h1>Bhagavad Gita Sloka</h1>
+    <p id="sloka-text">Loading...</p>
+</div>
+
+<script>
+    // Fetch data from the API
+    fetch('https://bhagavadgitaapi.in/slok/1/1/')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the sloka text from the response
+            const slokaText = data.slok;
+            // Update the content of the paragraph element with the sloka text
+            document.getElementById('sloka-text').textContent = slokaText;
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            // Display an error message if fetching data fails
+            document.getElementById('sloka-text').textContent = 'Failed to fetch data. Please try again later.';
+        });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhagavad Gita</title>
+    <link rel="stylesheet" href="gita.css">
+</head>
+<body>
+<header>
+    <b><h1 style="color:black;"> OM GITA</h1></b>     
+    <ul>
+        <div>
+            <a href="OM_GITA_LP.html">Back to Home Page</a>
+        </div>
+    </ul>
+</header>
+<div id="main-container">
+    <div id="chapter-verse-input">
+        <h1>Chapter and Verse Numbers</h1>
+        <b><label for="chapter">Chapter:</label></b>
+        <input type="number" id="chapter" name="chapter" min="1" value="1">
+        <b><label for="verse">Verse:</label></b>
+        <input type="number" id="verse" name="verse" min="1" value="1">
+        <button id="fetch-button">Fetch Sloka</button>
+    </div>
+    <div id="sloka-container">
+        <h1 style="color: black;">Bhagavad Gita Sloka</h1>
+        <p id="sloka-text">Loading...</p>
+    </div>
+    <div>
+        <h2>Translation</h2>
+        <div id="translation-text"></div>
+    </div>
+    <script>
+        // Function to fetch sloka based on provided chapter and verse numbers
+        function fetchSloka() {
+            const chapter = document.getElementById('chapter').value;
+            const verse = document.getElementById('verse').value;
+            const apiUrl = `https://bhagavadgitaapi.in/slok/${chapter}/${verse}/`;
+            // Fetch data from the API
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Extract the sloka text and translation from the response
+                    const slokaText = data.slok;
+                    const sivaTranslation = `${data.siva.author}: ${data.siva.et}`;
+                    const tejTranslation = `${data.tej.author}: ${data.tej.ht}`;
+                    // Update the content of the respective paragraph elements
+                    document.getElementById('sloka-text').textContent = slokaText;
+                    document.getElementById('translation-text').innerHTML = `${sivaTranslation} <br><br>${tejTranslation}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    // Display an error message if fetching data fails
+                    document.getElementById('sloka-text').textContent = 'Failed to fetch data. Please try again later.';
+                    document.getElementById('translation-text').textContent = 'Failed to fetch translation.';
+                });
+        }
+        // Add event listener to the fetch button
+        document.getElementById('fetch-button').addEventListener('click', fetchSloka);
+    </script>
+</div>
+<footer>
+    <h4>2024 Sanatana Gita. All rights reserved. Designed by SweetPoison</h4>
+    <br>
+</footer>
+</body>
+</html>
